@@ -1,1 +1,15 @@
 * White-nose Syndrome simulation in Texas
+
+** how to run a simple example
+
++ compile the simulation binary
+
+Go to the ~sim/~ directory and run ~make opt~ to generate an optimised build of the simulator ~sim~.
+
++ generate input files
+
+Execute ~gen.R~ in directory ~gen-landscape/~. This reads the files ~cavetemps.txt~, ~topology.txt~, and ~prism-all-counties.csv~ and creates files ~hibernacula.csv~, and ~distances.csv~, which are required as input files to the simulation.
+
++ copy or softlink the required files to example directory
+
+Go to ~examples/simple/~ directory and either copy ~hibernacula.csv~, ~distances.csv~, and ~sim~ or symlink these files to the directory. Then simply execute ~./sim~ to run the simulator and generate two output files ~out-p1.csv~, and ~out-p2.csv~.
