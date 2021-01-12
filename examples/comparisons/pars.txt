@@ -1,0 +1,4 @@
+canonical.json
+noinf.json
+nodir.json
+noenv.json

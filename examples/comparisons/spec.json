@@ -1,0 +1,9 @@
+{
+    "num_sims" : 4,
+    "res" : 10,
+    "max_time" : 5475,
+    "printmode" : 2,
+    "stride" : 14,
+    "start_inf" : 1825.0,
+    "env_sigm": false
+}

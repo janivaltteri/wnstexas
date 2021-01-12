@@ -1,0 +1,27 @@
+{
+    "rh" : 0.003333,
+    "rf" : 0.00152,
+    "beta_e" : 0.043,
+    "beta_d" : 0.0,
+    "env_max": 0.043,
+    "env_half": 0.3,
+    "env_steep": 4.0,
+    "myy_f" : 0.039,
+    "myy_h" : 0.0011667,
+    "lambda" : 0.017,
+    "delta" : 0.0488,
+    "ny" : 0.0225,
+    "khi" : 0.0755,
+    "gamma" : 0.00868,
+    "mprop" : 0.042,
+    "initsw" : 0.7,
+    "initew" : 0.28,
+    "initiw" : 0.02,
+    "initf" : 0.1,
+    "wake_temp" : 11.5,
+    "wake_temp_up" : 12.5,
+    "wake_rate" : 0.1,
+    "sleep_temp" : 11.5,
+    "sleep_rate" : 0.1
+}
+
