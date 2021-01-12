@@ -5,8 +5,6 @@
   2018 -- 2020
 */
 
-// todo: return code nonzero if errors
-
 #include <algorithm>
 #include <iostream>
 #include <sstream>
@@ -15,7 +13,6 @@
 #include <vector>
 #include <string>
 #include <time.h>
-//#include <filesystem>
 
 #include <boost/program_options.hpp>
 #include <boost/algorithm/string.hpp>
@@ -24,7 +21,6 @@
 #include "parameters.h"
 #include "landscape.h"
 
-//namespace fs = std::filesystem;
 namespace po = boost::program_options;
 
 int main(int argc, char* argv[])
@@ -49,13 +45,10 @@ int main(int argc, char* argv[])
   std::string outfileprefix{ "out" };
   std::string locations_infile{ "hibernacula.csv" };
   std::string distances_infile{ "distances.csv" };
-  //std::string directoryname{ "" };
-  //bool directory_supplied{ false };
 
   // commandline argument parsing -> file names
   try{
 
-    // todo: add verbose option
     po::options_description desc("Allowed options");
     desc.add_options()
       ("help,h", "print help message")
@@ -64,7 +57,6 @@ int main(int argc, char* argv[])
       ("outfile,o",     po::value<std::string>(), "outfile prefix")
       ("locations,l",   po::value<std::string>(), "patch locations csv")
       ("distances,d",   po::value<std::string>(), "patch distances csv")
-      //("directory,w",   po::value<std::string>(), "write directory")
       ;
 
     po::variables_map vm;        
@@ -119,16 +111,6 @@ int main(int argc, char* argv[])
 		<< std::endl;
     }
 
-    /*
-    if(vm.count("directory")){
-      directoryname = vm["directory"].as<std::string>();
-      std::cout << "Using directory " << directoryname << std::endl;
-      directory_supplied = true;
-    }else{
-      std::cout << "Directory not given" << std::endl;
-    }
-    */
-
   }catch(std::exception& e){
 
     std::cout << "cmd arguments error: " << e.what() << std::endl;
@@ -169,10 +151,6 @@ int main(int argc, char* argv[])
     sims.push_back(Simulation(outfilenames.at(i)));
   }
 
-#ifdef DEBUG
-  //std::cout << "Current path is " << fs::current_path() << std::endl;
-#endif
-
   bool simulation_init_ok{ true };
 
   // setup
@@ -206,7 +184,6 @@ int main(int argc, char* argv[])
 	    std::cout << "error reading parameter file " << parfilelist.at(i) << std::endl;
 	  }else{
 	    sims.at(i).ls.set_init_state();
-	    //sims.at(i).ls.set_init_state(sims.at(i).par);
 	    sims.at(i).ls.set_migration_proportions(sims.at(i).par.gamma);
 	  }
 	}
@@ -220,34 +197,17 @@ int main(int argc, char* argv[])
     }
   }
 
-  // if there are multiple simulations to perform then copy the
-  // setup from sims[0] and read parameters from files
-  // todo: make simulation_init_ok false if any errors occur
-  /*
-  if(outfilenames.size() > 1){
-    for(auto i = 1; i < static_cast<int>(outfilenames.size()); i++){
-      sims.at(i).setup = sims.at(0).setup; // copy setup
-      // todo: test that this returns true
-      sims.at(i).par.read_parameters_json(parfilelist.at(i));
-      sims.at(i).ls = sims.at(0).ls; // copy landscape
-    }
-  }
-  */
-
   time_t time0;
   time(&time0);
 
   // do simulations
-  // todo: simulate returns true/false
-  // std::vector<bool> sim_ok; // set length
   if(simulation_init_ok){
     std::cout << "simulating " << std::endl << std::flush;
-    // this is the part that should be parallel
+    // this part could be parallel
     for(auto i = 0; i < static_cast<int>(outfilenames.size()); i++){
       std::cout << i << " " << std::flush;
       sims.at(i).wr.open_stream();
       sims.at(i).wr.write_state(sims.at(i).ls, sims.at(i).time);
-      // todo: abort if returns false
       sims.at(i).simulate();
       sims.at(i).wr.close_stream();
     }
@@ -263,25 +223,6 @@ int main(int argc, char* argv[])
   double seconds{ difftime(time1,time0) };
 
   std::cout << "reached end in " << seconds << " seconds" << std::endl;
-
-  /*
-    std::vector<std::unique_ptr<simulation>> sims;
-    for(auto i = 0; i < p.num_sims; i++){
-      sims.push_back(std::make_unique<simulation>());
-    }
-    
-    for(auto i = 0; i < p.num_sims; i++){
-    // todo: check how to pass landscape and dispersal objects
-      sims.at(i)->initialise(std::make_shared<par>(p),
-                             lands,
-                             i);
-    }
-
-    #pragma omp parallel for
-    for(auto i = 0; i < p.num_sims; i++){
-      sims.at(i)->simulate(disp);
-    }
-  */
 
 #ifdef DEBUG
   std::cout << "exiting" << std::endl;

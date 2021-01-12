@@ -3,8 +3,6 @@
 
 #include <string>
 
-// this is only needed here with DEBUG
-// but needed in impl file
 #include <iostream>
 
 
@@ -41,19 +39,6 @@ public:
 #endif
   }
 
-  /*
-  Setup(const Setup& other)
-    : dt(other.dt),
-      num_sims(other.num_sims),
-      res(other.res),
-      max_time(other.max_time),
-      printmode(other.printmode),
-      initialised(other.initialised)
-  {
-    std::cout << "Setup copy constructor called" << std::endl;
-  };
-  */
-
   bool read_setup_json(const std::string filename);
   void print() const;
   
@@ -79,9 +64,6 @@ public:
   double initf;
 
   bool initialised;
-
-  // todo: no arguments constructor that sets zeroes and initialised
-  // todo: copy constructor
 
   bool read_parameters_json(const std::string filename);
   

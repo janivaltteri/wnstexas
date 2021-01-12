@@ -8,9 +8,9 @@ struct Neighbour
 {
 public:
 
-  int patch_idx;
-  double distance;   // km
-  double proportion; // proportion of population migrating there
+  int patch_idx;     // index
+  double distance;   // distance in km
+  double proportion; // proportion of population migrating
   
 Neighbour(const int in_patch_idx,
 	  const double in_distance)
@@ -25,28 +25,30 @@ struct Patch
 
 public:
 
-  int county;
-  int init_infection;
+  int county;         // index
+  int init_infection; // 1 if infection present initially, 0 if not
 
+  // state
   double sw; double sh; double ew; double eh; double iw; double ih; double f;
-  
+
+  // derivative
   double dsw; double dsh; double dew; double deh; double diw; double dih; double df;
 
   double capacity;
   double within_distance; // within county distance, used for self migration prop
 
-  double intemp_hi; /// init from landscape::read_from_csv
-  double intemp_lo; /// init from landscape::read_from_csv
-  double intemp_base; /// init from landscape::read_from_csv
-  double outemp_ampl; /// init from landscape::read_from_csv
-  double outemp_base; /// init from landscape::read_from_csv
+  double intemp_hi;   // init from landscape::read_from_csv
+  double intemp_lo;   // init from landscape::read_from_csv
+  double intemp_base; // init from landscape::read_from_csv
+  double outemp_ampl; // init from landscape::read_from_csv
+  double outemp_base; // init from landscape::read_from_csv
 
   double s_immigrants; double e_immigrants;
   double env_inf; double dir_inf;
 
   std::vector<Neighbour> neighbours;
 
-  // this default constructor should not be used
+  // default constructor in not used
 Patch()
   : county(0), init_infection(0),
     sw(0.0), sh(0.0), ew(0.0), eh(0.0), iw(0.0), ih(0.0), f(0.0),
@@ -91,8 +93,6 @@ Patch(const int in_county_idx,
 		      const double time);
 
   bool hibernating(const double time, const Parameters &p) const;
-  //double wakerate(const double o_temp, const Parameters &p);
-  //double sleeprate(const double o_temp, const Parameters &p);
   
   double intemp(const double time) const;
 

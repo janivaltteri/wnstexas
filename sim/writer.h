@@ -23,7 +23,6 @@ class Writer
       os(std::ofstream()) { };
 
   // copy constructor
-  // is it used?
   Writer(const Writer& other)
     : filename(other.filename),
       os(std::ofstream())
@@ -36,8 +35,6 @@ class Writer
   void open_stream();
 
   bool check_stream(); // check if is open
-
-  // void write_header();
 
   void write_state(const Landscape &l, const double time);
 

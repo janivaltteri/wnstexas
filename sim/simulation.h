@@ -26,7 +26,7 @@ class Simulation
     : setup(Setup()),
       par(Parameters()),
       ls(Landscape()),
-      wr(Writer(outfilename)), // should be () and open_streams()
+      wr(Writer(outfilename)),
       time(0.0)
   {
 #ifdef DEBUG
@@ -40,16 +40,8 @@ class Simulation
     std::cout << "Simulation destructor called" << std::endl;
 #endif
   }
-  
-  /*
-  Simulation(Setup &in_setup)
-    : setup(in_setup) { };
-  */
 
   bool simulate();
-
-  // private:
-  // static Setup read_setup_from_file(std::string &setupfilename);
 
 };
 

@@ -4,21 +4,17 @@
 
 const double pi{ 3.1415926535 };
 
-// todo: test inline
 double fungalgrowth(const double i_temp);
-//double wakerate(const double o_temp, const Parameters &p);
-//double sleeprate(const double o_temp, const Parameters &p);
-//double growrate(const double o_temp, const Parameters &p);
 
 void Patch::update_state_k(const Setup &s,
 			   const Parameters &p,
 			   const double time)
 {
-  double wakepop = sw + ew + iw; // try static double
+  double wakepop = sw + ew + iw;
   bool hibe = hibernating(time,p);
   double grow_r;
-  double wake_r; // = wakerate(outemp(time),p);
-  double sleep_r; // = sleeprate(outemp(time),p);
+  double wake_r;
+  double sleep_r;
   if(hibe){
     grow_r = 0.0;
     wake_r = 0.0;
@@ -28,7 +24,6 @@ void Patch::update_state_k(const Setup &s,
     wake_r = p.wake_rate;
     sleep_r = 0.0;
   }
-  //double grow_r = growrate(outemp(time),p);
   // store infection values for printing
   if(s.env_sigm){
     env_inf = p.env_max*sw*(pow((f/capacity)/p.env_half,p.env_steep) /
@@ -37,7 +32,7 @@ void Patch::update_state_k(const Setup &s,
     env_inf = p.beta_e*sw*f/capacity;
   }
   dir_inf = p.beta_d*sh*ih/capacity;
-  // get new states
+  // get new state
   dsw = p.delta*ew -
     env_inf +
     grow_r*(sw + ew) -
@@ -75,12 +70,11 @@ void Patch::update_state_k(const Setup &s,
   f =  f  + s.dt*df;
 }
 
-// todo: test sending just const double dt from setup
 void Patch::update_state(const Setup &s,
 			 const Parameters &p,
 			 const double time)
 {
-  double wakepop = sw + ew + iw; // try static double
+  double wakepop = sw + ew + iw;
   bool hibe = hibernating(time,p);
   double grow_r;
   double wake_r;
@@ -94,7 +88,7 @@ void Patch::update_state(const Setup &s,
     wake_r = p.wake_rate;
     sleep_r = 0.0;
   }
-  //double grow_r = growrate(outemp(time),p);
+  // get new state
   dsw = p.delta*ew -
     p.beta_e*sw*f +
     grow_r*(sw + ew) -
@@ -125,7 +119,6 @@ void Patch::update_state(const Setup &s,
   f =  f  + s.dt*df;
 }
 
-// todo: inline
 double Patch::intemp(const double time) const
 {
   double v = sin(2.0*pi*time/365.0);
@@ -134,19 +127,15 @@ double Patch::intemp(const double time) const
   }else{
     return intemp_lo*v + intemp_base;
   }
-  //return intemp_ampl*sin(2.0*pi*time/365.0) + intemp_base;
 }
 
-// todo: test inline
 double Patch::outemp(const double time) const
 {
   return outemp_ampl*sin(2.0*pi*time/365.0) + outemp_base;
 }
 
-// todo: inline
 double fungalgrowth(const double i_temp)
 {
-  // static?
   const double maksimi{ 50.0 };
   const double b3{ 0.0377 };
   const double c3{ 0.25 };
@@ -176,18 +165,3 @@ bool Patch::hibernating(const double time, const Parameters &p) const
   }
 }
 
-// todo: test inline
-/*
-double growrate(const double o_temp, const Parameters &p)
-{
-  // tai (p.sleep_temp + 1.0)
-  if(o_temp < p.sleep_temp){
-    return 0.0;
-  }else{
-    return p.rh;
-  }
-  //double y;
-  //y = pow(o_temp/p.sleep_half,p.sleep_k);
-  //return p.sleep_max*(1.0 - (y/(1.0 + y)));
-}
-*/

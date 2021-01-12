@@ -15,8 +15,6 @@ class Landscape
 
   std::vector<Patch> patches;
   
-  // int size; // this should not be here
-
   bool initialised;  
 
   Landscape()
@@ -34,17 +32,12 @@ class Landscape
 #endif
   }
 
-  // copy constructor will be used ?
-
   // returns new time
   double step(const Setup &stp,
 	      const Parameters &par,
 	      const double time);
 
-  // note: only _b versions are used now
-  //bool read_patch_csv(const std::string filename); // not used
   bool read_patch_csv_b(const std::string filename);
-  //bool read_migration_csv(const std::string filename); // not used
   bool read_migration_csv_b(const std::string filename);
   
   void set_init_state();
