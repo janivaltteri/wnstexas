@@ -1,15 +1,33 @@
 * White-nose Syndrome simulation in Texas
 
-** how to run a simple example
+** requirements
 
-+ compile the simulation binary
+1. ~json.hpp~ from ~https://github.com/nlohmann/json~ placed into ~sim/nlohmann/~
+
+2. ~program options~ from boost
+
+** how to run examples
+
+*** simple example
+
+1. compile the simulation binary
 
 Go to the ~sim/~ directory and run ~make opt~ to generate an optimised build of the simulator ~sim~.
 
-+ generate input files
+2. generate input files
 
-Execute ~gen.R~ in directory ~gen-landscape/~. This reads the files ~cavetemps.txt~, ~topology.txt~, and ~prism-all-counties.csv~ and creates files ~hibernacula.csv~, and ~distances.csv~, which are required as input files to the simulation.
+Execute ~gen.R~ in directory ~gen-landscape/~. This reads the files ~cavetemps.txt~, ~topology.txt~, and ~prism-all-counties.csv~ and creates files ~hibernacula.csv~, and ~distances.csv~, which are the required input files to the simulation.
 
-+ copy or softlink the required files to example directory
+3. copy or softlink the required files to example directory
 
-Go to ~examples/simple/~ directory and either copy ~hibernacula.csv~, ~distances.csv~, and ~sim~ or symlink these files to the directory. Then simply execute ~./sim~ to run the simulator and generate two output files ~out-p1.csv~, and ~out-p2.csv~.
+Go to ~examples/simple/~ directory and either copy ~hibernacula.csv~, ~distances.csv~, and ~sim~ or symlink these files to the directory. 
+
+4. run simulation
+
+Execute ~./sim~ to run the simulator and generate two output files ~out-p1.csv~, and ~out-p2.csv~.
+
+*** comparisons between base case, infection modes, and infection-free scenario
+
+Steps 1-3 need to be carried out as above. Then, simulation can be executed in the ~examples/comparisons/~ directory as:
+
+~./sim -s spec.json -p pars.txt -o out -l hibernacula.csv -d distances.csv~
